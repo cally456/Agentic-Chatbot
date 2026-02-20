@@ -1,9 +1,10 @@
 langchain
-langraph
+langgraph
 langchain_community
 langchain_core
 langchain_groq
-langchain
-faiss_cpu
+faiss-cpu
 streamlit
-travily-python
+tavily-python
+python-dotenv
+pytest
