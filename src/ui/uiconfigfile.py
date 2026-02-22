@@ -19,4 +19,4 @@ class Config:
         return self._split_csv(self.config['DEFAULT'].get('GROQ_Model_OPTIONS',''))
     
     def get_page_title(self):
-        return self.config['DEFAULT'].get('PAGE_TITLE','LangGraph: Build Stateful Agentic AI LangGraph')
+        return self.config['DEFAULT'].get('PAGE_TITLE')

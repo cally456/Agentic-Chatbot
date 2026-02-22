@@ -13,6 +13,7 @@ class DisplayResultStreamlit:
         usecase = self.usecase
         graph = self.graph
         user_message = self.user_message
+        assistant_text = ""
         
         # Display user message first
         with st.chat_message("user"):
@@ -47,7 +48,6 @@ class DisplayResultStreamlit:
             # Handle tool use cases
             initial_state ={"messages":[("user", user_message)]}
             res = graph.invoke(initial_state)
-            assistant_text = ""
             for message in res['messages']:
                 if type(message)== HumanMessage:
                     with st.chat_message("user"):
@@ -61,5 +61,27 @@ class DisplayResultStreamlit:
                     with st.chat_message("assistant"):
                         st.write(message.content)
                         assistant_text = message.content
+            if assistant_text:
+                st.session_state.messages.append({"role": "assistant", "content": assistant_text})
 
-            st.session_state.messages.append({"role": "assistant", "content": assistant_text})
+        elif usecase=="AI News":
+            frequency = st.session_state.get("news_time_frame", "Daily")
+            with st.spinner(f"Fetching and summarizing {frequency} AI news..."):
+                result = graph.invoke({
+                    "messages": [{"role":"user","content": user_message}],
+                    "frequency": frequency,
+                    "query": user_message
+                })
+                try:
+                    AI_News_Path = f"./AINews/{frequency.lower()}_ai_news_summary.md"
+                    with open(AI_News_Path, "r") as file:
+                        summary_content = file.read()
+                        
+                        st.markdown(summary_content, unsafe_allow_html=True )
+                        assistant_text = summary_content
+                except FileNotFoundError:
+                    st.error(f"News Not Generated or File not found: {AI_News_Path}")
+                except Exception as e:
+                    st.error(f"Error displaying AI news: {e}")
+            if assistant_text:
+                st.session_state.messages.append({"role": "assistant", "content": assistant_text})

@@ -9,6 +9,7 @@ from src.utils.logger import setup_logger
 # Initialize Logger
 logger = setup_logger(__name__)
 
+
 def load_langgraph_agenticai_ui():
     """
     Loads and runs the LangGraph AgenticAI application with Streamlit UI.
@@ -17,7 +18,6 @@ def load_langgraph_agenticai_ui():
     implementing exception handling for robustness.
     """
 
-    ## Load UI
     try:
         ui = LoadStreamlitUI()
         user_input = ui.streamlit_load_ui()
@@ -29,25 +29,26 @@ def load_langgraph_agenticai_ui():
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    page_title = ui.config.get_page_title().strip()
+    normalized_title = "".join(page_title.split()).lower()
+    st.session_state.messages = [
+        m for m in st.session_state.messages
+        if normalized_title not in "".join(str(m.get("content", "")).split()).lower()
+    ]
+
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
     if not user_input:
-        # This might be normal if the user hasn't selected anything yet, 
-        # but if it returns None it implies an error in load_ui logic usually.
-        # Assuming load_ui returns dict, empty dict is "falsy" but might be valid state.
-        # But looking at loadui.py, it returns self.user_controls.
         logger.warning("User input not fully loaded or empty.")
-        # st.error("Error: Failed to load user input from the UI.") # Optional depending on flow
         return
-        
+
     user_message = st.chat_input("Enter your message here:")
 
     if user_message:
         logger.info(f"User message received: {user_message}")
         try:
-            # Configure the LLM
             try:
                 obj_llm_config = GroqLLM(user_controls_input=user_input)
                 model = obj_llm_config.get_llm_model()
@@ -61,28 +62,27 @@ def load_langgraph_agenticai_ui():
                 st.error("Error: LLM model could not be initialized.")
                 return
 
-            # Initialize and set up the graph based on the use case
             usecase = user_input.get("selected_usecase")
             if not usecase:
                 logger.error("No use case selected.")
                 st.error("Error: No use case selected.")
                 return
-            
+
             logger.info(f"Selected usecase: {usecase}")
 
-            ## Graph Builder
             try:
-                if usecase == "Chatbot with Tool":
+                if usecase in ("Chatbot with Tool", "AI News"):
                     tavily_key = user_input.get("TAVILY_API_KEY") or os.getenv("TAVILY_API_KEY", "")
                     if not tavily_key:
                         logger.error("TAVILY_API_KEY is missing.")
                         st.error("Error: TAVILY_API_KEY is missing. Enter it in the sidebar or set env var.")
                         return
                     os.environ["TAVILY_API_KEY"] = tavily_key
+
                 graph_builder = GraphBuilder(model)
                 graph = graph_builder.setup_graph(usecase)
                 logger.info("Graph setup successful.")
-                
+
                 DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
 
             except Exception as e:

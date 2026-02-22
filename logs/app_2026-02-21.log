@@ -1,0 +1,26 @@
+2026-02-21 11:59:28,411 - src.ui.main - INFO - User message received: give me the todays trending news
+2026-02-21 11:59:30,635 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 11:59:30,637 - src.ui.main - ERROR - Graph execution failed: No API key provided. Please provide the api_key attribute or set the TAVILY_API_KEY environment variable.
+2026-02-21 12:04:55,967 - src.ui.main - INFO - User message received: give me todays news
+2026-02-21 12:04:57,597 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 12:04:57,598 - src.ui.main - ERROR - Graph execution failed: No API key provided. Please provide the api_key attribute or set the TAVILY_API_KEY environment variable.
+2026-02-21 12:05:18,215 - src.ui.main - INFO - User message received: give me todays news
+2026-02-21 12:05:19,915 - src.ui.main - INFO - Selected usecase: Chatbot with Tool
+2026-02-21 12:05:19,941 - src.ui.main - ERROR - Graph execution failed: Found edge starting at unknown node 'tools'
+2026-02-21 12:20:23,810 - src.ui.main - INFO - User message received: tell me the whether of pune   today
+2026-02-21 12:20:25,991 - src.ui.main - INFO - Selected usecase: Chatbot with Tool
+2026-02-21 12:20:26,070 - src.ui.main - INFO - Graph setup successful.
+2026-02-21 12:22:47,672 - src.ui.main - INFO - User message received: giev em todays  headline  regarding events happening  in the india tofday
+2026-02-21 12:22:49,532 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 12:22:49,536 - src.ui.main - ERROR - Graph execution failed: Found edge starting at unknown node 'save_result'
+2026-02-21 12:27:33,993 - src.ui.main - INFO - User message received: tell me toadys trennding news related to amaghrahtra
+2026-02-21 12:27:36,149 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 12:27:36,164 - src.ui.main - INFO - Graph setup successful.
+2026-02-21 12:27:45,844 - src.ui.main - ERROR - Graph execution failed: cannot access local variable 'assistant_text' where it is not associated with a value
+2026-02-21 12:28:18,567 - src.ui.main - INFO - User message received: tell me toadys trennding news related to  amahrashtra
+2026-02-21 12:28:20,093 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 12:28:20,105 - src.ui.main - INFO - Graph setup successful.
+2026-02-21 12:28:47,557 - src.ui.main - ERROR - Graph execution failed: cannot access local variable 'assistant_text' where it is not associated with a value
+2026-02-21 12:32:03,139 - src.ui.main - INFO - User message received: ell me toadys trennding news related to  a  Maharashtra
+2026-02-21 12:32:05,187 - src.ui.main - INFO - Selected usecase: AI News
+2026-02-21 12:32:05,201 - src.ui.main - INFO - Graph setup successful.
